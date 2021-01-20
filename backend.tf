@@ -3,7 +3,7 @@ terraform {
     organization = "githubspecial"
 
     workspaces {
-      name = "my-app-vnet-subnet"
+      name = "seasia-assignment"
     }
   }
 }

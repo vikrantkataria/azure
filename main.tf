@@ -84,7 +84,7 @@ resource "azurerm_subnet_network_security_group_association" "web_server_sag" {
 }
 
 resource "azurerm_storage_account" "storage_account" {
-  name                     = "${var.resource_prefix}-storage"
+  name                     = "${var.resource_prefix}storage"
   location                 = var.web_server_location
   resource_group_name      = azurerm_resource_group.web_server_rg.name
   account_tier             = "Standard"
@@ -120,7 +120,7 @@ resource "azurerm_virtual_machine_scale_set" "web_server" {
   os_profile {
     computer_name_prefix = local.web_server_name
     admin_username       = "webserver"
-    admin_password       = data.azurerm_key_vault_secret.admin_password.value
+    admin_password       = "nverwritepsswdincode"
   }
 
   os_profile_windows_config {
