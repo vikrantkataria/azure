@@ -14,8 +14,8 @@ resource "azurerm_resource_group" "web_server_rg" {
   location = var.web_server_location
 
   tags = {
-    environment   = local.build_environment
-    owner = var.owner
+    environment = local.build_environment
+    owner       = var.owner
     application = var.application_name
   }
 }
@@ -30,10 +30,10 @@ resource "azurerm_virtual_network" "web_server_vnet" {
 resource "azurerm_subnet" "web_server_subnet" {
   for_each = var.web_server_subnets
 
-    name                 = each.key
-    resource_group_name  = azurerm_resource_group.web_server_rg.name
-    virtual_network_name = azurerm_virtual_network.web_server_vnet.name
-    address_prefix       = each.value
+  name                 = each.key
+  resource_group_name  = azurerm_resource_group.web_server_rg.name
+  virtual_network_name = azurerm_virtual_network.web_server_vnet.name
+  address_prefix       = each.value
 }
 
 resource "azurerm_public_ip" "web_server_lb_public_ip" {
@@ -61,7 +61,7 @@ resource "azurerm_network_security_rule" "web_server_nsg_rule_rdp" {
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.web_server_rg.name
   network_security_group_name = azurerm_network_security_group.web_server_nsg.name
-  count = var.environment     == "production" ? 0 : 1
+  count                       = var.environment == "production" ? 0 : 1
 }
 
 resource "azurerm_network_security_rule" "web_server_nsg_rule_http" {
@@ -146,12 +146,12 @@ resource "azurerm_virtual_machine_scale_set" "web_server" {
   }
 
   extension {
-      name                 = "${local.web_server_name}-extension"
-      publisher            = "Microsoft.Compute"
-      type                 = "CustomScriptExtension"
-      type_handler_version = "1.10"
+    name                 = "${local.web_server_name}-extension"
+    publisher            = "Microsoft.Compute"
+    type                 = "CustomScriptExtension"
+    type_handler_version = "1.10"
 
-      settings = <<SETTINGS
+    settings = <<SETTINGS
       {
         "fileUris": ["https://raw.githubusercontent.com/eltimmo/learning/master/azureInstallWebServer.ps1"],
         "commandToExecute": "start powershell -ExecutionPolicy Unrestricted -File azureInstallWebServer.ps1"
