@@ -1,8 +1,9 @@
-provider "azurerm" {
+/*
+  provider "azurerm" {
   version = "2.2.0"
   features {}
 }
-
+*/
 locals {
   web_server_name   = var.environment == "production" ? "${var.web_server_name}-prd" : "${var.web_server_name}-dev"
   build_environment = var.environment == "production" ? "production" : "development"
